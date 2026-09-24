@@ -1,6 +1,22 @@
 # 🎭 Animated Mascot Login Page
 
+[![Angular](https://img.shields.io/badge/Angular-22-dd0031?style=for-the-badge&logo=angular&logoColor=white)](https://angular.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178c6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
+
 A modern, highly interactive **Angular 22** login experience featuring a 3D animated mascot companion that reacts in real-time to user form actions (input focus, password entry, submission, errors, and success).
+
+![Animated Mascot Login Page Preview](preview.png)
+
+---
+
+## 🏷️ Recommended GitHub Repository Topics
+
+Copy and paste these tags into your GitHub repository settings under **About ⚙️ ➔ Topics**:
+
+```text
+angular angular22 login-page interactive-ui 3d-character mascot video-animation angular-signals typescript frontend glassmorphism ux-design web-animation
+```
 
 ---
 

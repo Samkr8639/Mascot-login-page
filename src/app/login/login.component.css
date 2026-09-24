@@ -1,0 +1,518 @@
+/* ─────────────────────────────────────────────
+   LOGIN PAGE — Full Immersive Layout
+   ───────────────────────────────────────────── */
+
+/* ── Page Shell ── */
+:host {
+  display: block;
+  height: 100%;
+}
+
+.login-page {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  /* Uniform solid background matching the character video world */
+  background: var(--character-bg);
+  /* Prevent browser text-selection highlight bleeding over the character video
+     on double-click. Inputs/textareas re-enable selection explicitly below. */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ── Background Layers ── */
+.bg-base {
+  position: absolute;
+  inset: 0;
+  background: var(--character-bg);
+  z-index: 0;
+}
+
+/* ── Character Section ── */
+.character-section {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 55%;
+  height: 100%;
+  border: none !important;
+  outline: none !important;
+  transform: none !important;
+  background: var(--character-bg);
+  /* Ensure no selection highlight can ever appear over the video */
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: none;
+}
+
+/* ── Form Section ── */
+.form-section {
+  position: relative;
+  z-index: 3;
+  flex: 0 0 45%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: transparent;
+  border: none !important;
+  outline: none !important;
+}
+
+/* ── Form Inner Card ── */
+.form-inner {
+  width: 100%;
+  max-width: 440px;
+  background: #e2e9fd;
+  border: none !important;
+  outline: none !important;
+  border-radius: 28px;
+  padding: 2.75rem 2.5rem 2.25rem;
+  box-shadow: 0 24px 56px -10px rgb(100 115 185 / 64%), 0 8px 24px -4px rgb(0 0 0 / 21%);
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  position: relative;
+}
+
+/* ── Form Header ── */
+.form-header {
+  display: block;
+}
+
+.form-title {
+  font-size: 2.1rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  line-height: 1.15;
+  color: #170944;
+  margin-bottom: 0.35rem;
+}
+
+.form-subtitle {
+  font-size: 0.9375rem;
+  color: #64748b;
+  font-weight: 400;
+  min-height: 1.4rem;
+}
+
+.subtitle-text {
+  display: inline-block;
+  transition: color 200ms ease, opacity 200ms ease;
+}
+
+/* ── Login Form ── */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+/* ── Field ── */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.field-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #374151;
+  text-transform: uppercase;
+}
+
+/* Rounded Input Control Matching Mockup */
+.field-control {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  height: 50px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.field-control:hover {
+  border-color: #cbd5e1;
+}
+
+.field-control:focus-within {
+  border-color: #6d28d9;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.12);
+}
+
+.has-error .field-control {
+  border-color: rgba(220, 38, 38, 0.6);
+  background: #fffafa;
+}
+
+.has-error .field-control:focus-within {
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12);
+}
+
+.field-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.75rem 0 1rem;
+  color: #64748b;
+  flex-shrink: 0;
+  transition: color 180ms ease;
+}
+
+.field-control:focus-within .field-icon {
+  color: #6d28d9;
+}
+
+.field-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: #1e293b;
+  padding: 0 0.875rem 0 0;
+  width: 100%;
+  caret-color: #6d28d9;
+  /* Re-enable selection inside inputs — parent page has user-select:none */
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+/* ── Prevent Browser Autofill / Autocomplete Blue Background ── */
+.field-input:-webkit-autofill,
+.field-input:-webkit-autofill:hover,
+.field-input:-webkit-autofill:focus,
+.field-input:-webkit-autofill:active,
+.field-input:autofill {
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+  box-shadow: 0 0 0 1000px #ffffff inset !important;
+  -webkit-text-fill-color: #1e293b !important;
+  caret-color: #6d28d9 !important;
+  transition: background-color 5000000s ease-in-out 0s;
+}
+
+.has-error .field-input:-webkit-autofill,
+.has-error .field-input:-webkit-autofill:hover,
+.has-error .field-input:-webkit-autofill:focus,
+.has-error .field-input:-webkit-autofill:active,
+.has-error .field-input:autofill {
+  -webkit-box-shadow: 0 0 0 1000px #fffafa inset !important;
+  box-shadow: 0 0 0 1000px #fffafa inset !important;
+}
+
+.field-input::placeholder {
+  color: #94a3b8;
+  font-weight: 400;
+}
+
+.field-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.field-error {
+  font-size: 0.8125rem;
+  color: #dc2626;
+  font-weight: 500;
+  padding-left: 0.25rem;
+  animation: errorShake 300ms ease;
+}
+
+@keyframes errorShake {
+  0%, 100% { transform: translateX(0); }
+  25%       { transform: translateX(-4px); }
+  75%       { transform: translateX(4px); }
+}
+
+/* ── Visibility Toggle ── */
+.visibility-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 1rem 0 0.5rem;
+  color: #64748b;
+  transition: color 180ms ease;
+  flex-shrink: 0;
+}
+
+.visibility-toggle:hover { color: #1e1b4b; }
+.visibility-toggle:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ── Form Options (Remember Me + Forgot Link) ── */
+.form-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.1rem;
+}
+
+.remember-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.remember-checkbox {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.custom-checkbox {
+  width: 17px;
+  height: 17px;
+  border-radius: 5px;
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: transparent;
+  transition: all 160ms ease;
+}
+
+.remember-checkbox:checked + .custom-checkbox {
+  background: #6d28d9;
+  border-color: #6d28d9;
+  color: #ffffff;
+}
+
+.remember-checkbox:focus-visible + .custom-checkbox {
+  outline: 2px solid #6d28d9;
+  outline-offset: 2px;
+}
+
+.remember-text {
+  font-size: 0.85rem;
+  color: #374151;
+  font-weight: 500;
+}
+
+.forgot-link {
+  font-size: 0.85rem;
+  color: #3b2e7e;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.forgot-link:hover {
+  color: #1e1b4b;
+  text-decoration: underline;
+}
+
+/* ── General Error ── */
+.general-error {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: rgba(254, 226, 226, 0.85);
+  border: 1px solid rgba(220, 38, 38, 0.25);
+  border-radius: 12px;
+  font-size: 0.875rem;
+  color: #b91c1c;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.08);
+}
+
+/* ── Submit Button (Matching Mockup Deep Indigo/Purple) ── */
+.submit-btn {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: #ffffff;
+  background: linear-gradient(135deg, #280055 0%, #3a0076 100%);
+  box-shadow: 0 8px 22px -3px rgba(40, 0, 85, 0.42);
+  overflow: hidden;
+  margin-top: 0.25rem;
+  transition:
+    transform 150ms ease,
+    box-shadow 180ms ease,
+    background 200ms ease,
+    opacity 200ms ease;
+}
+
+.submit-btn:not(:disabled):hover {
+  background: linear-gradient(135deg, #320068 0%, #46008e 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 26px -3px rgba(40, 0, 85, 0.52);
+}
+
+.submit-btn:not(:disabled):hover .btn-arrow {
+  transform: translateX(4px);
+}
+
+.submit-btn:not(:disabled):active {
+  transform: translateY(0px);
+  box-shadow: 0 4px 12px rgba(40, 0, 85, 0.35);
+}
+
+.submit-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.85;
+}
+
+.submit-btn.loading {
+  background: linear-gradient(135deg, #280055 0%, #46008e 100%);
+}
+
+.submit-btn.success {
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+  box-shadow: 0 6px 22px rgba(16, 185, 129, 0.4);
+}
+
+.btn-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-arrow {
+  transition: transform 200ms ease;
+}
+
+/* ── Spinner ── */
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 650ms linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Sign Up CTA (Matching Mockup) ── */
+.signup-cta {
+  font-size: 0.875rem;
+  color: #4b5563;
+  text-align: center;
+  margin-top: 0.25rem;
+}
+
+.signup-link {
+  color: #170944;
+  font-weight: 700;
+  text-decoration: none;
+  margin-left: 0.25rem;
+  transition: color 150ms ease;
+}
+
+.signup-link:hover {
+  text-decoration: underline;
+}
+
+/* ── Entrance Animation ── */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Success Mode ── */
+.login-page.success-mode .form-section {
+  pointer-events: none;
+}
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════ */
+
+/* ── Tablet (≤ 900px) ── */
+@media (max-width: 900px) {
+  .login-page {
+    flex-direction: column;
+  }
+
+  .character-section {
+    flex: 0 0 50%;
+    width: 100%;
+  }
+
+  .form-section {
+    flex: 0 0 50%;
+    width: 100%;
+    padding: 1.5rem;
+    background: transparent;
+    border-left: none;
+    border-top: none;
+  }
+
+  .form-inner {
+    max-width: 480px;
+    gap: 1.25rem;
+  }
+
+  .form-title {
+    font-size: 2rem;
+  }
+}
+
+/* ── Mobile (≤ 580px) ── */
+@media (max-width: 580px) {
+  .login-page {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .character-section {
+    flex: 0 0 42vh;
+    min-height: 220px;
+  }
+
+  .form-section {
+    flex: 1;
+    padding: 1.25rem 1rem 2rem;
+    align-items: flex-start;
+    overflow-y: auto;
+  }
+
+  .form-inner {
+    gap: 1rem;
+  }
+
+  .form-title {
+    font-size: 1.625rem;
+  }
+}
+
+/* ── Reduced Motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .bg-nebula-2 { animation: none; }
+  .form-section { transition: opacity 200ms ease; transform: none; }
+  .form-header, .login-form, .signup-cta {
+    opacity: 1;
+    animation: none;
+  }
+  .submit-btn { transition: opacity 200ms ease; }
+  .submit-btn:hover { transform: none; }
+}

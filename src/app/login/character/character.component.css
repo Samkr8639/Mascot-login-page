@@ -1,0 +1,105 @@
+:host {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* ─── Wrapper ─── */
+.character-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--character-bg);
+}
+
+/* ─── Seamless Edge Gradient Overlay on top of Video ─── */
+.video-gradient-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: -2px;
+  width: calc(100% + 4px);
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+  background:
+    /* Right border edge: starts safely AFTER the waving hand (70%) and softly blends into background */
+    linear-gradient(
+      to right,
+      transparent 0%,
+      transparent 70%,
+      rgba(226, 233, 253, 0.35) 78%,
+      rgba(226, 233, 253, 0.75) 86%,
+      rgba(226, 233, 253, 0.95) 93%,
+      var(--character-bg) 96%,
+      var(--character-bg) 100%
+    ),
+    /* Top edge: above the antenna */
+    linear-gradient(
+      to bottom,
+      var(--character-bg) 0%,
+      rgba(226, 233, 253, 0.5) 2%,
+      transparent 5%
+    ),
+    /* Left edge: outside the character's body */
+    linear-gradient(
+      to right,
+      var(--character-bg) 0%,
+      rgba(226, 233, 253, 0.5) 2%,
+      transparent 6%
+    ),
+    /* Bottom edge: under the ground contact */
+    linear-gradient(
+      to top,
+      var(--character-bg) 0%,
+      rgba(226, 233, 253, 0.5) 2%,
+      transparent 5%
+    );
+}
+
+/* ─── Hidden DOM Preload Buffers (loading + success) ─── */
+/* In the DOM so Chrome buffers them eagerly; never shown to user */
+.preload-buffer {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ─── Video Layers ─── */
+.character-video {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: -4px;
+  width: calc(100% + 6px);
+  height: 100%;
+  object-fit: cover;
+  object-position: center bottom;
+  opacity: 0;
+  transition: opacity 300ms ease;
+  pointer-events: none;
+  will-change: opacity;
+  background: var(--character-bg);
+}
+
+.character-video.active {
+  opacity: 1;
+}
+
+@media (max-width: 900px) {
+  .character-video {
+    object-position: center center;
+  }
+}
+
+/* ─── Reduced Motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  .character-video { transition: none; }
+}

@@ -1,0 +1,62 @@
+<div class="character-wrapper" aria-hidden="true" role="presentation">
+
+  <!-- Layer A (primary — plays idle immediately on page load) -->
+  <video
+    #videoA
+    class="character-video"
+    [class.active]="showA()"
+    [src]="idleSrc"
+    autoplay
+    muted
+    [muted]="true"
+    playsinline
+    loop
+    preload="auto"
+    disablepictureinpicture
+    [attr.aria-hidden]="true"
+  ></video>
+
+  <!-- Layer B (incoming crossfade) -->
+  <video
+    #videoB
+    class="character-video"
+    [class.active]="!showA()"
+    autoplay
+    muted
+    [muted]="true"
+    playsinline
+    loop
+    preload="none"
+    disablepictureinpicture
+    [attr.aria-hidden]="true"
+  ></video>
+
+  <!-- ══ Hidden DOM Preload Buffers ══
+       Kept in the DOM so Chrome buffers them eagerly — off-screen JS video
+       elements are throttled by Chrome and get GC'd, causing the freeze.
+       These never become visible; they only prime the browser's decode cache. -->
+  <video
+    class="preload-buffer"
+    [src]="loadingSrc"
+    preload="auto"
+    muted
+    [muted]="true"
+    playsinline
+    disablepictureinpicture
+    aria-hidden="true"
+  ></video>
+  <video
+    class="preload-buffer"
+    [src]="successSrc"
+    preload="auto"
+    muted
+    [muted]="true"
+    playsinline
+    disablepictureinpicture
+    aria-hidden="true"
+  ></video>
+
+  <!-- ══ Soft Gradient Blend Overlay on top of Video ══ -->
+  <div class="video-gradient-overlay" aria-hidden="true"></div>
+
+</div>

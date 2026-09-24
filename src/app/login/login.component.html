@@ -1,0 +1,205 @@
+<section
+  class="login-page"
+  [class.visible]="isVisible()"
+  [class.success-mode]="isSuccess()"
+>
+
+  <!-- ══ Background Base ══ -->
+  <div class="bg-base"></div>
+
+  <!-- ══ CHARACTER SECTION ══ -->
+  <div class="character-section">
+    <app-character [state]="characterState()" />
+  </div>
+
+  <!-- ══ FORM SECTION ══ -->
+  <div class="form-section">
+
+    <div class="form-inner">
+
+      <!-- Heading & Reactive Companion Subtitle -->
+      <header class="form-header">
+        <h1 class="form-title">WELCOME BACK</h1>
+        <p class="form-subtitle">
+          <span class="subtitle-text">{{ subtitleText() }}</span>
+        </p>
+      </header>
+
+      <!-- ── Form ── -->
+      <form
+        class="login-form"
+        (ngSubmit)="onSubmit()"
+        novalidate
+        autocomplete="on"
+      >
+
+        <!-- Email Field -->
+        <div class="field" [class.has-error]="errors().email" [class.has-value]="email().length > 0">
+          <label class="field-label" for="email-input">Email address</label>
+          <div class="field-control">
+            <span class="field-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+              </svg>
+            </span>
+            <input
+              id="email-input"
+              class="field-input"
+              type="email"
+              name="email"
+              autocomplete="email"
+              placeholder="name@company.com"
+              [value]="email()"
+              (input)="setEmail($any($event.target).value)"
+              [disabled]="isDisabled()"
+              [attr.aria-invalid]="errors().email ? 'true' : null"
+              [attr.aria-describedby]="errors().email ? 'email-error' : null"
+              (focus)="onEmailFocus()"
+              (blur)="onInputBlur()"
+            />
+          </div>
+          @if (errors().email) {
+            <span id="email-error" class="field-error" role="alert" aria-live="polite">
+              {{ errors().email }}
+            </span>
+          }
+        </div>
+
+        <!-- Password Field -->
+        <div class="field" [class.has-error]="errors().password" [class.has-value]="password().length > 0">
+          <label class="field-label" for="password-input">Password</label>
+          <div class="field-control">
+            <span class="field-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </span>
+            <input
+              id="password-input"
+              class="field-input"
+              [type]="showPassword() ? 'text' : 'password'"
+              name="password"
+              autocomplete="current-password"
+              placeholder="••••••••••••"
+              [value]="password()"
+              (input)="setPassword($any($event.target).value)"
+              [disabled]="isDisabled()"
+              [attr.aria-invalid]="errors().password ? 'true' : null"
+              [attr.aria-describedby]="errors().password ? 'password-error' : null"
+              (focus)="onPasswordFocus()"
+              (blur)="onInputBlur()"
+            />
+            <button
+              type="button"
+              class="visibility-toggle"
+              [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
+              (click)="togglePasswordVisibility()"
+              [disabled]="isDisabled()"
+            >
+              @if (!showPassword()) {
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                  <line x1="1" y1="1" x2="23" y2="23"/>
+                </svg>
+              } @else {
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              }
+            </button>
+          </div>
+          @if (errors().password) {
+            <span id="password-error" class="field-error" role="alert" aria-live="polite">
+              {{ errors().password }}
+            </span>
+          }
+        </div>
+
+        <!-- Options: Remember Me & Forgot Password -->
+        <div class="form-options">
+          <label class="remember-label">
+            <input
+              type="checkbox"
+              class="remember-checkbox"
+              name="rememberMe"
+              [checked]="rememberMe()"
+              (change)="setRememberMe($any($event.target).checked)"
+              [disabled]="isDisabled()"
+            />
+            <span class="custom-checkbox" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </span>
+            <span class="remember-text">Remember me</span>
+          </label>
+          <a href="#" class="forgot-link" tabindex="0">Forgot password?</a>
+        </div>
+
+        <!-- General error -->
+        @if (errors().general) {
+          <div class="general-error" role="alert" aria-live="assertive">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            {{ errors().general }}
+          </div>
+        }
+
+        <!-- Submit Button — @switch replaces triple *ngIf -->
+        <button
+          id="login-button"
+          type="submit"
+          class="submit-btn"
+          [class.loading]="isSubmitting()"
+          [class.success]="isSuccess()"
+          [disabled]="isDisabled()"
+          aria-label="Sign in"
+        >
+          @switch (btnState()) {
+            @case ('idle') {
+              <span class="btn-label">
+                Sign In
+                <svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </span>
+            }
+            @case ('loading') {
+              <span class="btn-label" aria-live="polite">
+                <span class="spinner" aria-hidden="true"></span>
+                Signing in...
+              </span>
+            }
+            @case ('success') {
+              <span class="btn-label" aria-live="polite">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                Welcome back!
+              </span>
+            }
+          }
+        </button>
+
+      </form>
+
+      <!-- Footer -->
+      <p class="signup-cta">
+        Don't have an account?
+        <a
+          href="#"
+          class="signup-link"
+          (click)="$event.preventDefault(); resetForm()"
+        >Create one</a>
+      </p>
+
+    </div>
+
+  </div>
+
+</section>

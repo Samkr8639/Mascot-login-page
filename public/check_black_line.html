@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <div id="log">Checking...</div>
+  <script>
+    const vid = document.createElement('video');
+    vid.src = '/asset/6ab3c76e141269258FwJBTJcou3974.mp4';
+    vid.muted = true;
+    vid.onloadeddata = async () => {
+      vid.currentTime = 0.5;
+    };
+    vid.onseeked = () => {
+      const can = document.createElement('canvas');
+      can.width = vid.videoWidth;
+      can.height = vid.videoHeight;
+      const ctx = can.getContext('2d');
+      ctx.drawImage(vid, 0, 0);
+
+      // Check left edge (x=0,1,2,3), right edge (x=W-1, W-2, W-3, W-4)
+      const w = can.width;
+      const h = can.height;
+      const midY = Math.floor(h / 2);
+
+      let leftSamples = [];
+      for (let x = 0; x < 10; x++) {
+        const d = ctx.getImageData(x, midY, 1, 1).data;
+        leftSamples.push(`x=${x}: rgb(${d[0]},${d[1]},${d[2]})`);
+      }
+
+      let rightSamples = [];
+      for (let x = w - 10; x < w; x++) {
+        const d = ctx.getImageData(x, midY, 1, 1).data;
+        rightSamples.push(`x=${x}: rgb(${d[0]},${d[1]},${d[2]})`);
+      }
+
+      // Check top edge and bottom edge
+      let topSamples = [];
+      for (let y = 0; y < 10; y++) {
+        const d = ctx.getImageData(Math.floor(w / 2), y, 1, 1).data;
+        topSamples.push(`y=${y}: rgb(${d[0]},${d[1]},${d[2]})`);
+      }
+
+      let botSamples = [];
+      for (let y = h - 10; y < h; y++) {
+        const d = ctx.getImageData(Math.floor(w / 2), y, 1, 1).data;
+        botSamples.push(`y=${y}: rgb(${d[0]},${d[1]},${d[2]})`);
+      }
+
+      document.getElementById('log').innerHTML = `
+        Dimensions: ${w}x${h}<br><br>
+        Left Edge (y=${midY}):<br>${leftSamples.join('<br>')}<br><br>
+        Right Edge (y=${midY}):<br>${rightSamples.join('<br>')}<br><br>
+        Top Edge:<br>${topSamples.join('<br>')}<br><br>
+        Bottom Edge:<br>${botSamples.join('<br>')}
+      `;
+      document.title = "SAMPLED";
+    };
+  </script>
+</body>
+</html>
